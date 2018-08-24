@@ -1,0 +1,7 @@
+# Untracked files & directoires:
+
+# virtual environment directory
+venv/
+
+# VS Code config files
+.vscode/
