@@ -3,5 +3,10 @@
 # virtual environment directory
 venv/
 
-# VS Code config files
+# config files
+config.py
 .vscode/
+
+# cache
+__pycache__/
+
