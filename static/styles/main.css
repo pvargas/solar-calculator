@@ -1,6 +1,7 @@
 :root {
     --theme-dark: #171820;
     --theme-orange: #fdc029;
+    --theme-light-orange: #ffd364;
     --theme-dark-orange: #df861d; 
     --theme-brown: #aa3d01;    
 }
@@ -10,7 +11,7 @@
     margin-right: 10%;
     display: grid;
     grid-template-columns: 1fr 3fr;
-    grid-template-rows: 1fr 2em 8fr 1fr;
+    grid-template-rows: 1fr 2em 6fr 1fr;
     grid-gap: 1em;
 }
 
@@ -22,13 +23,30 @@
 
 .sidebar {
     grid-row: 2 / -2;
-    grid-column: 1 / 2;
-    
-    padding-right: .25em;
-    box-sizing: border-box;  
-    padding-top: 0;
-    margin-top: 2.5em;
+    grid-column: 1 / 2;  
+    margin-right: .5em;
 }
+
+button {
+    background-color: var(--theme-orange);
+    border: none !important;
+    color: var(--theme-dark);
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;    
+    cursor: pointer;
+}
+
+button:focus {
+    box-shadow: 0 0 3px var(--theme-brown);
+    outline: var(--theme-brown);
+}
+
 
 #search {
     grid-row: 2 / 3;
@@ -57,7 +75,8 @@ input:focus {
 .instructions {        
     grid-row: -2 / -1;
     grid-column: 1 / -1;
-    padding: 1em;
+    padding: .5em;
+
     text-align: center;
     background-color: var(--theme-orange);
     font-weight: bold;   
@@ -66,12 +85,12 @@ input:focus {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 1fr;
-    grid-gap: 0em;
+    grid-gap: .2em;
     
 }
 
 h2, h3 {    
-    background-color: var(--theme-orange);
+    margin-top: 0;
     text-align: left;
     font-family: 'Ubuntu', sans-serif;
     /* color: var(--theme-main);*/
@@ -98,3 +117,4 @@ body {
 #sun {
     color: var(--theme-orange);
 }
+
