@@ -1,7 +1,7 @@
 # Solar Map
 
 
-Solar Map is a solar calculator. The web app allows users to search for an address in a map, draw a solar installation, and calculate its nominal power.
+Solar Map is a solar calculator. The web app allows users to search for an address in a map, draw a solar panel installation, and calculate its nominal power.
 
 ![Screen](/solar.gif?raw=true "Solar Map")
 
