@@ -1,9 +1,15 @@
+// This script sets up the map and its controls
+
+
 var map;
-var geo;
+
+// array to keep track of coordinates
+var coordinates = [];
+// array to keep track of drawn shapes
+var shapes = [];
 
 function initMap() {
-    geo = google.maps.geometry.spherical;
-    console.log(geo);
+    
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 42.3601, lng: -71.0589},
         zoom: 12,
@@ -12,12 +18,11 @@ function initMap() {
     
     var input = document.getElementById('pac-input');
     var options = {
-        componentRestrictions: {country: "us"} // restrict search to the US
+        // restrict search to the US
+        componentRestrictions: {country: "us"}
     };
     
     var Autocomplete = new google.maps.places.Autocomplete(input, options); 
-
-    /////////////////////////////////////////////
     Autocomplete.bindTo('bounds', map);
 
     // Set the data fields to return when the user selects a place.
@@ -28,6 +33,7 @@ function initMap() {
     var infowindowContent = document.getElementById('infowindow-content');
     infowindow.setContent(infowindowContent);
 
+    // mark search result
     var marker = new google.maps.Marker({
         map: map,
         anchorPoint: new google.maps.Point(0, -29)
@@ -61,12 +67,7 @@ function initMap() {
             (place.address_components[0] && place.address_components[0].short_name || ''),
             (place.address_components[1] && place.address_components[1].short_name || ''),
             (place.address_components[2] && place.address_components[2].short_name || '')
-            ].join(' ');  
-
-            var coords = place.geometry.location.lat() + ", " +         
-                place.geometry.location.lng();
-            
-            console.log(coords);
+            ].join(' ');
         }
         
         // Places informaiton box above marker
@@ -75,30 +76,40 @@ function initMap() {
         infowindowContent.children['place-address'].textContent = address;        
         infowindow.open(map, marker);
     });
-    var drawingShapeOtions = {
-        fillColor: '#fdc029',
-        fillOpacity: 0.5,
-        strokeWeight: 2,
-        clickable: false,
-        editable: true,
-        zIndex: 1
-    };
+
+
+    // setup drawing controls and options
     var drawingManager = new google.maps.drawing.DrawingManager({
         drawingControl: true,
         drawingControlOptions: {
             position: google.maps.ControlPosition.TOP_CENTER,
-            drawingModes: ['polygon', 'rectangle']
+            drawingModes: ['polygon']
         },        
-        polygonOptions: drawingShapeOtions,
-        rectangleOptions: drawingShapeOtions
+        polygonOptions:  {
+            fillColor: '#fdc029',
+            fillOpacity: 0.5,
+            strokeWeight: 2,
+            clickable: false,
+            editable: false,
+            zIndex: 1
+        },
     });
 
-    drawingManager.setMap(map);
-    var centerControlDiv = document.createElement('div');
-    var centerControl = new CenterControl(centerControlDiv, map);
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+    // add shape overlays to array (so they can be deleted if need be)
+    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
+        shapes.push(e);
+    });
 
-    trackShapes(drawingManager);
+    // event listener adds polygons' coordinates to array
+    google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
+        coordinates.push(polygon.getPath().getArray());
+    });
+
+    // place clear button on map
+    drawingManager.setMap(map);
+    var clearDiv = document.createElement('div');
+    var clear = new ClearControl(clearDiv, map);
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(clearDiv);    
 };
 
 

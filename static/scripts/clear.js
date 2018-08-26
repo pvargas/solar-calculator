@@ -1,5 +1,4 @@
-function CenterControl(controlDiv, map) {
-    var chicago = {lat: 41.85, lng: -87.65};
+function ClearControl(controlDiv, map) {
 
     // style for the control border.
     var controlUI = document.createElement('div');
@@ -10,7 +9,7 @@ function CenterControl(controlDiv, map) {
     controlUI.style.cursor = 'pointer';    
     controlUI.style.marginTop = '.5em';
     controlUI.style.textAlign = 'center';
-    controlUI.title = 'Click to clear drawings';
+    controlUI.title = 'Click to remove polygons';
     controlDiv.appendChild(controlUI);
 
     // style for the control interior.
@@ -23,32 +22,16 @@ function CenterControl(controlDiv, map) {
     controlText.innerHTML = 'Clear Shapes';
     controlUI.appendChild(controlText);
 
-    // event listener to empty shapes array
+    // event listener to remove shapes from map when user clicks 'clear'
     controlUI.addEventListener('click', function() {
         for (var i=0; i < shapes.length; i++){
             shapes[i].overlay.setMap(null);
         }
         shapes = [];
-        console.log(shapes.length);
+        coordinates = [];
+
+        // resets text area values
+        document.getElementById("area").innerHTML = '0 m<sup>2</sup>';
+        document.getElementById("nominal").innerHTML = '0 kWp';
     });   
 };
-var shapes = [];
-
-// function to keep track of all shapes drawn
-function trackShapes(drawingManager){
-    
-    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
-        shapes.push(e);
-        console.log(shapes.length);
-        if (e.type != google.maps.drawing.OverlayType.MARKER) {
-            // Switch back to non-drawing mode after drawing a shape.            
-
-            // Add an event listener that selects the new shapes
-            var newShape = e.overlay;
-            newShape.type = e.type;            
-
-            // drawingManager.setDrawingMode(null);
-        };
-    });
-};
-
