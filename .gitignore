@@ -4,7 +4,7 @@
 venv/
 
 # config files
-# config.py
+config.py
 .vscode/
 
 # cache
